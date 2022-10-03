@@ -4,6 +4,9 @@ import axios from 'axios';
 import {Col, Row, Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Helmet} from 'react-helmet-async';
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import { getError } from "../utils/utils";
 // React & Node ECommerce Tutorial For Beginners 2022 [MERN Stack ECommerce Website]
 const reducer = (state, action) =>{
   switch(action.type) {
@@ -31,7 +34,7 @@ function HomePage() {
     .get('http://localhost:5005/api/products')
     .then(response => 
       dispatch({type:'FETCH_SUCCESS', payload: response.data})
-      ).catch(err =>{dispatch({type:'FETCH_FAIL', payload: err.message})})
+      ).catch(err =>{dispatch({type:'FETCH_FAIL', payload: getError(err)})})
   }, []);
 
   return (
@@ -41,8 +44,10 @@ function HomePage() {
       </Helmet>
         <h1>Featured Products</h1>
         <div className='products'>
-        { loading? (<div>Loading...</div>) : error? (
-        <div>{error}</div>) : (<Container>
+        { loading? (
+    <LoadingBox/>)
+    : error ? (
+    <MessageBox variant='danger'>{error}</MessageBox>) : (<Container>
           <Row>
           {products.map((product) => (
             <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">

@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {useParams} from 'react-router-dom'
 import { useEffect, useReducer } from "react";
 import axios from 'axios';
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import Ratings from './Ratings';
 import {Helmet} from 'react-helmet-async';
+import LoadingBox from './LoadingBox';
+import MessageBox from './MessageBox';
+import { getError } from '../utils/utils';
+import { Store } from '../Store';
 
 const reducer = (state, action) =>{
   switch(action.type) {
@@ -34,14 +38,19 @@ function ProductScreen() {
       .get(`http://localhost:5005/api/product/slug/${slug}`)
       .then(response => 
         dispatch({type:'FETCH_SUCCESS', payload: response.data})
-        ).catch(err =>{dispatch({type:'FETCH_FAIL', payload: err.message})})
+        ).catch(err =>{dispatch({type:'FETCH_FAIL', payload: getError(err)})})
     }, [slug]);
+
+    const {state, dispatch: ctxDispatch} = useContext(Store);
+    const addToCartHanddler = () => {
+      ctxDispatch({type:'CART_ADD_ITEM', payload: {...product,quantity: 1}})
+    }
 
   return (
     loading ? (
-    <div>Loading...</div>)
+    <LoadingBox/>)
     : error ? (
-    <div>{error}</div>)
+    <MessageBox variant='danger'>{error}</MessageBox>)
     : (<div>
       <Row>
         <Col md={6}>
@@ -92,7 +101,7 @@ function ProductScreen() {
             {product.countInStock >0 && (
               <ListGroup.Item>
                 <div className='d.grid'>
-                  <Button variant='primary'>
+                  <Button onClick={addToCartHanddler} variant='primary'>
                     Add to Cart
                   </Button>
                 </div>
