@@ -3,9 +3,8 @@ import Product from "../components/Product";
 import axios from 'axios';
 import {Col, Row, Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-
+import {Helmet} from 'react-helmet-async';
+// React & Node ECommerce Tutorial For Beginners 2022 [MERN Stack ECommerce Website]
 const reducer = (state, action) =>{
   switch(action.type) {
     case 'FETCH_REQUEST':
@@ -37,6 +36,9 @@ function HomePage() {
 
   return (
     <main>
+      <Helmet>
+        <title>Primezona</title>
+      </Helmet>
         <h1>Featured Products</h1>
         <div className='products'>
         { loading? (<div>Loading...</div>) : error? (
