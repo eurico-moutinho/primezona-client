@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import {NavLink} from "react-router-dom";
 import axios from 'axios';
 
-// React & Node ECommerce Tutorial For Beginners 2022 [MERN Stack ECommerce Website]
+
 
 const reducer = (state, action) =>{
   switch(action.type) {
