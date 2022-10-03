@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from "react";
-import {NavLink} from "react-router-dom";
+import Product from "../components/Product";
 import axios from 'axios';
+import {Col, Row, Container} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -38,22 +40,15 @@ function HomePage() {
         <h1>Featured Products</h1>
         <div className='products'>
         { loading? (<div>Loading...</div>) : error? (
-        <div>{error}</div>) : products.map((products) =>
-           (
-            <div className='product' key={products.slug}>
-                <NavLink to={`/product/${products.slug}`}>
-                    <img src={products.image} alt={products.name} />
-                </NavLink>
-                <div className='product-info'>
-                    <NavLink to={`/product/${products.slug}`}>
-                        <p>{products.name}</p>
-                    </NavLink>
-                    <p><strong>{products.price}</strong></p>
-                    <button>Add to cart</button>
-                </div>
-            </div>
-          ))
-        }
+        <div>{error}</div>) : (<Container>
+          <Row>
+          {products.map((product) => (
+            <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+              <Product product={product}></Product>
+            </Col>
+          ))}
+        </Row></Container>
+        )}
         </div>
       </main>
   );
