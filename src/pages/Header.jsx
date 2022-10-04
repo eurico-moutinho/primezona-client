@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import {LinkContainer} from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { Badge, Cart, Nav } from 'react-bootstrap'
+import { Badge, Nav } from 'react-bootstrap'
 import { Store } from '../Store'
 
 
@@ -22,7 +22,7 @@ function Header() {
               <NavLink to='cart' className='nav-link'>Cart
                 {cart.cartItems.length >0 &&(
                   <Badge pill bg='danger'>
-                    {cart.cartItems.length}
+                    {cart.cartItems.reduce((a,c) => a+ c.quantity, 0)}
                   </Badge>
                 )}
               </NavLink>
