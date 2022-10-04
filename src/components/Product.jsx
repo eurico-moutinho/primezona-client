@@ -37,7 +37,13 @@ function Product(props) {
                     </NavLink>
                     <Ratings rating={product.rating} numReviews={product.numReviews}></Ratings>
                     <Card.Text>{product.price}</Card.Text>
+                    {product.countInStock === 0 ? (
+                    <Button variant='light' disabled>
+                      Out of Stock
+                      </Button>
+                    ) : (
                     <Button onClick={()=> addCartHandler(product)}>Add to cart</Button>
+                    )}
                     </Card.Body>
             </Card>
 
