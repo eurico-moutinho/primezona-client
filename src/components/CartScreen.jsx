@@ -13,7 +13,7 @@ function CartScreen() {
     const navigate = useNavigate();
 
     const updateCartHandler = async (item, quantity) => {
-        const {data} = await axios.get(`http://localhost:5005/api/product/${item.slug}`);
+        const {data} = await axios.get(`http://localhost:5005/api/product/${item._id}`);
         if(data.countInStock < quantity){
             window.alert('Sorry. Product is out of stock');
             return;
@@ -46,7 +46,7 @@ function CartScreen() {
                     </MessageBox>) : (
                         <ListGroup>
                             {cartItems.map(item => (
-                                <ListGroup.Item key={item.slug}>
+                                <ListGroup.Item key={item._id}>
                                     <Row className='align.items.center'>
                                         <Col md={4}>
                                             <img src={item.image} alt={item.name} className='img-fluid rounded img-thumbnail'></img>{' '}
